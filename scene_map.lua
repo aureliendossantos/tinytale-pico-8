@@ -1,5 +1,7 @@
 function init_map()
-    init_database()
+    init_player_stats()
+    init_inventory()
+    init_hud()
     steps = 0
     steps_goal = 0
     cur_terrain = 0
@@ -8,16 +10,31 @@ end
 
 function update_map()
     player_movement()
-    update_terrain()
+    update_terrain_number()
     if not steps_goal_set or terrain_changed then
         new_steps_goal()
     end
     if steps_goal_set and steps >= steps_goal then
         battle()
     end
+    update_player_stats()
+    update_hud()
+    update_inventory()
 end
 
-function update_terrain()
+function player_movement()
+    newx, newy = p.x, p.y
+    if (btnp_up) newy -= 1
+    if (btnp_down) newy += 1
+    if (btnp_left) newx -= 1
+    if (btnp_right) newx += 1
+    if (newx ~= p.x or newy ~= p.y) and can_move() then
+        p.x, p.y = newx, newy
+        steps += 1
+    end
+end
+
+function update_terrain_number()
     terrain_changed = false
     local new_terrain = 0
     for i = 1,2 do
@@ -38,25 +55,10 @@ function new_steps_goal()
     steps_goal_set = true
 end
 
-function player_movement()
-    newx, newy = p.x, p.y
-    if (btnp_up) newy -= 1
-    if (btnp_down) newy += 1
-    if (btnp_left) newx -= 1
-    if (btnp_right) newx += 1
-    if (newx ~= p.x or newy ~= p.y) and can_move() then
-        p.x, p.y = newx, newy
-        steps += 1
-    end
-end
-
-function can_move()
-    return not tile_has_flag(0, newx, newy)
-end
-
 function draw_map()
     cls()
     map()
     spr(16, p.x*8, p.y*8)
     draw_hud()
+    draw_inventory()
 end

@@ -5,20 +5,51 @@ p = {
     x = 3,
     y = 3,
     name = "player",
-    life = 10,
-    damage = 1
+    level = 1
+}
+
+--evolution curves
+--base that will be altered by equipment
+function calc_hp_curve()
+    return 5 + 5 * p.level
+end
+function calc_exp_curve()
+    return 100 * p.level
+end
+function calc_damage_curve()
+    return 1 * p.level
+end
+
+inv = {
+    {1, 3},
+    {2, 9}
+}
+
+items = {
+    {
+        name = "pOTION",
+        spr = 32
+    },
+    {
+        name = "kEY",
+        spr = 33
+    }
 }
 
 enemies = {
     {
         name = "slime",
-        life = 1,
-        damage = 1
+        hp = 1,
+        damage = 1,
+        exp = 10,
+        gold = 2
     },
     {
         name = "goblin",
-        life = 2,
-        damage = 2
+        hp = 2,
+        damage = 2,
+        exp = 25,
+        gold = 3
     }
 }
 
