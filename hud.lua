@@ -2,49 +2,92 @@ function init_hud()
     log_opened = false
     log_y = 128
     menuitem(2, "event log", function() toggle_log() end)
+
+    bar = {timer = 0}
+
+    function bar:new(value)
+        new_bar = {
+            start = value,
+            printed = value,
+            final_value = value
+        }
+        setmetatable(new_bar, self)
+        self.__index = self
+        return new_bar
+    end
+
+    function bar:update(monitored_value)
+        --example: if current value different from real hp
+        if self.final_value ~= monitored_value then
+            self.timer = 0
+            self.start = self.printed
+            self.final_value = monitored_value
+        end
+        --timer 1 = end of animation
+        self.timer = min(1, self.timer + 0.05)
+        self.printed = circular_out(self.timer, self.start, self.final_value - self.start, 1)
+    end
+
+    hp_bar = bar:new(p.hp)
+    exp_bar = bar:new(p.exp)
+    gold_bar = bar:new(p.gold)
 end
 
 function update_hud()
+    hp_bar:update(p.hp)
+    exp_bar:update(p.exp)
+    gold_bar:update(p.gold)
+
     update_log()
 end
 
 function draw_hud()
     draw_player_status()
+    draw_inventory_corner()
     draw_log()
 end
 
 function draw_player_status()
     local w = 30
-    local h = 27
-    --[[
+    local h = 29
+
     rect(-1, -1, w, h, 4)
-    fillp(0b1010010110100101.1)
     rectfill(0, 0, w-1, h-1, 5)
-    fillp(0)
-    --]]
-    rect(1, 4, w-2, 7, 6)
-    rectfill(2, 5, 27, 6, 8)
-    rect(1, 13, w-2, 15, 6)
-    line(2, 14, 27, 14, 12)
-    local y = 18
-    for i=1,19,9 do
-        spr(35, i, y)
-    end
-    spr(32, 1, y)
-    spr(33, 10, y)
-    for entry in all(inv) do
-        if entry[1] == 1 then
-            print_shaded(entry[2], 3, y+4)
-        elseif entry[1] == 2 then
-            print_shaded(entry[2], 12, y+4)
-        end
-    end
-    spr(34, 19, y)
-    print_shaded(p.gold, 21, y+4, 7)
-    local hp = p.hp.."/"..p.hp_max
-    print_shaded(hp, 4, 2, 7)
-    print_shaded(p.exp.."/"..p.exp_max, 4, 10, 7)
-    --print("lv."..p.level, 1, 14, 9)
+
+    draw_bar(1, 6, 27, 2, hp_bar.printed, p.hp_max, 8, 2)
+    local str = flr(hp_bar.printed).."/"..p.hp_max
+    print_shaded(str, 15-#str*2, 2, 7)
+
+    draw_bar(1, 16, 27, 1, exp_bar.printed, calc_exp_curve(), 12, 1)
+    str = "lV."..p.level
+    print_shaded(str, 15-#str*2, 11, 9)
+
+    local y = 20
+    spr(34, 21, y)
+    str = tostr(ceil(gold_bar.printed))
+    print_shaded(str, 20-#str*4, y+1, 7)
+end
+
+function draw_bar(x, y, w, h, cur_value, max_value, fill_col, back_col)
+    rectfill(x, y+1, 27, y+h, back_col)
+    rectfill(x, y+1, 1 + cur_value * (w-1) / max_value, y+h, fill_col)
+    rect(x, y, w, y+h+1, 6)
+end
+
+function draw_inventory_corner()
+    local x = 84
+    local y = 117
+    rect(x, y, 128, 128, 4)
+    rectfill(x+1, y+1, 128, 128, 5)
+    x += 3
+    y += 2
+    print("❎", x, y+2, 15)
+    x += 9
+    spr(35, x, y)
+    spr(32, x, y)
+    print_shaded(items[1].posessed, x+6, y+3)
+    x += 12
+    print("🅾️iNV", x, y+2, 15)
 end
 
 function toggle_log()

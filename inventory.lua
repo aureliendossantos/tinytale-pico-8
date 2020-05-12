@@ -1,28 +1,34 @@
 function init_inventory()
+    inv_x, inv_y, inv_w, inv_h = 128, 30, 90, 90
     inventory_opened = false
-    menuitem(1, "inventory", function() toggle_inventory() end)
 end
 
-function toggle_inventory()
-    inventory_opened = not inventory_opened
+function open_inventory()
     log_opened = false
+    _upd = update_inventory
+    inv_x = 30
+end
+
+function close_inventory()
+    _upd = update_map
+    inv_x = 128
 end
 
 function update_inventory()
-    if inventory_opened then
-        if (btn(🅾️)) toggle_inventory()
-    end
+    --change of scene:
+    if (btnp_o) close_inventory()
 end
 
 function draw_inventory()
-    if inventory_opened then
-        local x, y, w, h = 30, 30, 90, 90
-        rectfill(x, y, x+w, y+h, 4)
-        for entry in all(inv) do
-            local item = items[entry[1]]
-            spr(item.spr, x+10, y+10)
-            print(entry[2], x+12, y+14, 7)
-            x += 9
+    local x, y, w, h = inv_x, inv_y, inv_w, inv_h
+    rectfill(x, y, x+w, y+h, 4)
+    for item in all(items) do
+        if item.posessed then
+            if item.posessed > 0 then
+                spr(item.spr, x+10, y+10)
+                print_shaded(item.posessed, x+14, y+14)
+                x += 9
+            end
         end
     end
 end

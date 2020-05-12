@@ -2,16 +2,23 @@ function init_database()
 
 --player properties
 p = {
-    x = 3,
-    y = 3,
+    x = 4,
+    y = 4,
+    ox = 0,
+    oy = 0,
+    start_ox = 0,
+    start_oy = 0,
+    flip = false,
+    anim_timer = 0,
     name = "player",
-    level = 1
+    level = 1,
+    gold = 0
 }
 
 --evolution curves
 --base that will be altered by equipment
 function calc_hp_curve()
-    return 5 + 5 * p.level
+    return 4 + 5 * p.level
 end
 function calc_exp_curve()
     return 100 * p.level
@@ -20,18 +27,17 @@ function calc_damage_curve()
     return 1 * p.level
 end
 
-inv = {
-    {1, 3},
-    {2, 9}
-}
-
 items = {
     {
         name = "pOTION",
-        spr = 32
+        posessed = 3,
+        spr = 32,
+        type = "consumable",
+        effect = function() heal(5) end
     },
     {
         name = "kEY",
+        posessed = 9,
         spr = 33
     }
 }
@@ -39,6 +45,7 @@ items = {
 enemies = {
     {
         name = "slime",
+        spr = 17,
         hp = 1,
         damage = 1,
         exp = 10,
@@ -46,7 +53,8 @@ enemies = {
     },
     {
         name = "goblin",
-        hp = 2,
+        spr = 18,
+        hp = 3,
         damage = 2,
         exp = 25,
         gold = 3

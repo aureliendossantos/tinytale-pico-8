@@ -1,6 +1,6 @@
 function _init()
     init_database()
-    test_mode = false
+    test_mode = true
     if test_mode == true then
         go_to_map()
     else
@@ -16,13 +16,8 @@ function go_to_map()
     _drw = draw_map
 end
 
-function _update()
-    if not inventory_opened then
-        btn_up,btn_left,btn_down,btn_right=btn(⬆️),btn(⬅️),btn(⬇️),btn(➡️)
-        btnp_up,btnp_left,btnp_down,btnp_right=btnp(⬆️),btnp(⬅️),btnp(⬇️),btnp(➡️)
-        btn_x,btn_o=btn(❎),btn(🅾️)
-        btnp_x,btnp_o=btnp(❎),btnp(🅾️)
-    end
+function _update60()
+    update_buttons()
     _upd()
 end
 
