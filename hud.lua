@@ -1,6 +1,8 @@
 function init_hud()
     log_opened = false
     log_y = 128
+    inv_corner_x = 84
+    inv_corner_y = 117
     menuitem(2, "event log", function() toggle_log() end)
 
     bar = {timer = 0}
@@ -34,11 +36,32 @@ function init_hud()
 end
 
 function update_hud()
+    if current_town then
+        inventory_corner = false
+    else
+        inventory_corner = true
+    end
     hp_bar:update(p.hp)
     exp_bar:update(p.exp)
     gold_bar:update(p.gold)
-
+    update_inventory_corner()
     update_log()
+end
+
+function update_inventory_corner()
+    if inventory_corner then
+        inv_corner_x = 84
+        inv_corner_y = max(117, inv_corner_y - 2)
+        if btnp_x then
+            if items[1].posessed > 0 then
+                items[1].effect()
+                items[1].posessed -= 1
+            end
+        end
+    else
+        inv_corner_x = 84
+        inv_corner_y = min(128, inv_corner_y + 3)
+    end
 end
 
 function draw_hud()
@@ -51,8 +74,7 @@ function draw_player_status()
     local w = 30
     local h = 29
 
-    rect(-1, -1, w, h, 4)
-    rectfill(0, 0, w-1, h-1, 5)
+    window(-1, -1, w, h)
 
     draw_bar(1, 6, 27, 2, hp_bar.printed, p.hp_max, 8, 2)
     local str = flr(hp_bar.printed).."/"..p.hp_max
@@ -75,10 +97,9 @@ function draw_bar(x, y, w, h, cur_value, max_value, fill_col, back_col)
 end
 
 function draw_inventory_corner()
-    local x = 84
-    local y = 117
-    rect(x, y, 128, 128, 4)
-    rectfill(x+1, y+1, 128, 128, 5)
+    local x = inv_corner_x
+    local y = inv_corner_y
+    window(x, y, 129, 129)
     x += 3
     y += 2
     print("❎", x, y+2, 15)
@@ -105,7 +126,7 @@ function update_log()
 end
 
 function draw_log()
-    rectfill(0, log_y, 127, 128, 2)
+    window(0, log_y, 127, 129)
     local log_text_y = log_y + 1
     for i = #log-7, #log do
         if log[i] then

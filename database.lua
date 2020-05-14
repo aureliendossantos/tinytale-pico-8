@@ -2,8 +2,8 @@ function init_database()
 
 --player properties
 p = {
-    x = 4,
-    y = 4,
+    x = 7,
+    y = 2,
     ox = 0,
     oy = 0,
     start_ox = 0,
@@ -26,6 +26,11 @@ end
 function calc_damage_curve()
     return 1 * p.level
 end
+
+towns = {
+    name = "aUBERGE DE tILH",
+    price = 4
+}
 
 items = {
     {
