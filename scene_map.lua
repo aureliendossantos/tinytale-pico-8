@@ -6,7 +6,6 @@ function init_map()
     steps_goal = 0
     cur_terrain = 0
     log = {}
-    cursor_timer = 0
 end
 
 function update_map()
@@ -65,8 +64,7 @@ function draw_choice(x, y)
 end
 
 function draw_cursor(x, y)
-    cursor_timer += 0.01
-    x = x + flr(cos(cursor_timer)+0.5)
+    x = x + flr(sin(time()) + 0.5)
     spr(14, x, y)
 end
 
