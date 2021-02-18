@@ -34,6 +34,21 @@ function print_shaded(text, x, y)
     print(text, x, y, 7)
 end
 
+function outlined_spr(n, x, y, w, h, flip_x, flip_y)
+    w, h, flip_x, flip_y = w or 1, h or 1, flip_x or false, flip_y or false
+    pal({0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0})
+    y -= 1
+    spr(n, x, y, w, h, flip_x, flip_y)
+    y += 1
+    x -= 1
+    spr(n, x, y, w, h, flip_x, flip_y)
+    x += 2
+    spr(n, x, y, w, h, flip_x, flip_y)
+    x -= 1
+    pal()
+    spr(n, x, y, w, h, flip_x, flip_y)
+end
+
 function window(x, y, x2, y2, title)
     rect(x, y, x2, y2, 4)
     rectfill(x+1, y+1, x2-1, y2-1, 5)
@@ -46,9 +61,31 @@ function window(x, y, x2, y2, title)
     end
 end
 
+function bubble(width, height, y, fill_percent)
+    local x, x2, y2 = 63 - width/2, 63 + width/2, y + height
+    rectfill(x-2, y, x2+2, y2, 0)
+    rectfill(x, y-2, x2, y2+2, 0)
+    rectfill(x-1, y-1, x2+1, y2+1, 0)
+    rectfill(x, y-1, x2, y2+1, 7)
+    rectfill(x-1, y, x2+1, y2, 7)
+    if fill_percent then
+        local fill_x2 = x + fill_percent * (x2 - x) / 100
+        if fill_percent > 0 then
+            rectfill(x, y-1, fill_x2, y2+1, 12)
+            rectfill(x-1, y, fill_x2, y2, 12)
+        end
+    end
+end
+
 function update_buttons()
     --buttons aliases
     btn_up,btn_left,btn_down,btn_right=btn(⬆️),btn(⬅️),btn(⬇️),btn(➡️)
     btnp_up,btnp_left,btnp_down,btnp_right=btnp(⬆️),btnp(⬅️),btnp(⬇️),btnp(➡️)
     btn_x,btn_o,btnp_x,btnp_o=btn(❎),btn(🅾️),btnp(❎),btnp(🅾️)
+    if btn_x then
+        btn_x_timer += 1
+    else
+        btn_x_held = btn_x_timer
+        btn_x_timer = 0
+    end
 end

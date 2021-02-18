@@ -1,5 +1,6 @@
 function _init()
     init_database()
+    btn_x_timer, btn_x_held = 0, 0
     test_mode = true
     if test_mode == true then
         go_to_map()

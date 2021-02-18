@@ -57,10 +57,10 @@ function update_shop()
 end
 
 function update_index_up_and_down()
-    if btnp(2) then
+    if btnp_up then
         index -= 1
     end
-    if btnp(3) then
+    if btnp_down then
         index += 1
     end
     if (index < 1) index = #choices

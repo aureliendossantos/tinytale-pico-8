@@ -30,7 +30,7 @@ end
 
 function draw_battle()
     if enemy then
-        spr(enemy.spr, p.x*8 - p.ox/2, p.y*8 - p.oy/2)
+        outlined_spr(enemy.spr, p.x*8 - p.ox/2, p.y*8 - p.oy/2)
     end
 end
 

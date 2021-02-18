@@ -52,11 +52,11 @@ function update_inventory_corner()
     if inventory_corner then
         inv_corner_x = max(84, inv_corner_x - 2)
         inv_corner_y = max(117, inv_corner_y - 2)
-        if btnp_x then
-            if items[potion].posessed > 0 then
-                items[potion].effect()
-                items[potion].posessed -= 1
-                add(log, "used "..items[potion].name)
+        if btn_x_held > 0 and btn_x_held < 20 then
+            if items.potion.posessed > 0 then
+                items.potion.effect()
+                items.potion.posessed -= 1
+                add(log, "used "..items.potion.name)
             end
         end
     else

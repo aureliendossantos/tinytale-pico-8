@@ -53,5 +53,5 @@ function player_animation()
 end
 
 function draw_player()
-    spr(16, p.x*8 + p.ox, p.y*8 + p.oy, 1, 1, p.flip)
+    outlined_spr(16, p.x*8 + p.ox, p.y*8 + p.oy, 1, 1, p.flip)
 end

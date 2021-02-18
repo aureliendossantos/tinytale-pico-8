@@ -39,6 +39,10 @@ towns = {
     }
 }
 
+chests = {
+    x3y4 = {"potion", 3}
+}
+
 items = {
     potion = {
         name = "pOTION",
@@ -49,7 +53,7 @@ items = {
     },
     key = {
         name = "kEY",
-        posessed = 9,
+        posessed = 1,
         spr = 33
     }
 }
@@ -86,6 +90,7 @@ terrains = {
         max_steps = 2,
         enemies = {2}
     }
+    --6-reserved for chests
     --7-reserved for towns
 }
 
