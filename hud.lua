@@ -50,24 +50,27 @@ end
 
 function update_inventory_corner()
     if inventory_corner then
-        inv_corner_x = 84
+        inv_corner_x = max(84, inv_corner_x - 2)
         inv_corner_y = max(117, inv_corner_y - 2)
         if btnp_x then
-            if items[1].posessed > 0 then
-                items[1].effect()
-                items[1].posessed -= 1
+            if items[potion].posessed > 0 then
+                items[potion].effect()
+                items[potion].posessed -= 1
+                add(log, "used "..items[potion].name)
             end
         end
     else
-        inv_corner_x = 84
-        inv_corner_y = min(128, inv_corner_y + 3)
+        --pour aller vers la droite :
+        inv_corner_x = min(105, inv_corner_x + 3)
+        --pour aller vers le bas :
+        --inv_corner_y = min(128, inv_corner_y + 3)
     end
 end
 
 function draw_hud()
     draw_player_status()
-    draw_inventory_corner()
     draw_log()
+    draw_inventory_corner()
 end
 
 function draw_player_status()
@@ -106,7 +109,7 @@ function draw_inventory_corner()
     x += 9
     spr(35, x, y)
     spr(32, x, y)
-    print_shaded(items[1].posessed, x+6, y+3)
+    print_shaded(items["potion"].posessed, x+6, y+3)
     x += 12
     print("🅾️iNV", x, y+2, 15)
 end

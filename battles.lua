@@ -16,7 +16,7 @@ function battle()
         if p.hp <= 0 then
             add(log, enemy.name.." has slained "..p.name.."...")
         else
-            add(log, p.name.." has slained a "..enemy.name)
+            add(log, p.name.." has slained a "..enemy.name.."!")
         end
         --rewards
         p.exp += enemy.exp
@@ -40,5 +40,5 @@ end
 
 function attack(atker, dfder)
     dfder.hp -= atker.damage
-    add(log, atker.name.." atks -"..atker.damage.." "..dfder.name.."!")
+    add(log, atker.name.." ▶ -"..atker.damage.." "..dfder.name)
 end

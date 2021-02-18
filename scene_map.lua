@@ -9,7 +9,14 @@ function init_map()
 end
 
 function update_map()
-    update_town()
+    if cur_terrain == 7 then
+        if not p.busy and not just_left_town then
+            enter_town()
+        end
+    else
+        just_left_town = false
+    end
+
     if (not p.busy) player_movement()
     update_terrain_number()
     if not steps_goal_set or terrain_changed then
@@ -23,49 +30,6 @@ function update_map()
     player_animation()
     --change of scene:
     if (btnp_o) open_inventory()
-end
-
-function update_town()
-    current_town = nil
-    if cur_terrain == 7 then
-        if not p.busy and not just_left_town then
-            current_town = towns
-            if btnp_x then
-                heal(1000)
-                just_left_town = true
-            end
-            if btnp_o then
-                just_left_town = true
-            end
-        end
-    else
-        just_left_town = false
-    end
-end
-
-function draw_town()
-    if current_town then
-        local name = current_town.name
-        local w = #name * 4 + 2
-        local x = 64 - w/2
-        local y = 100
-        window(x - 5, y + 4, x + w + 5, 128)
-        window(x, y, x + w, 108)
-        print(name, x + 2, y + 2, 15)
-        draw_choice(x + 5,y + 20)
-    end
-end
-
-function draw_choice(x, y)
-    draw_cursor(x, y)
-    spr(15, x + 14, y)
-    print("sleep", x + 25, y + 1)
-    print("4", x+60,y+1)
-end
-
-function draw_cursor(x, y)
-    x = x + flr(sin(time()) + 0.5)
-    spr(14, x, y)
 end
 
 function update_terrain_number()

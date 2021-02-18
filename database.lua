@@ -28,19 +28,26 @@ function calc_damage_curve()
 end
 
 towns = {
-    name = "aUBERGE DE tILH",
-    price = 4
+    x9y2 = {
+        name = "aUBERGE DE tILH",
+        price = 4,
+        shop = {"potion", 5, "key", 20}
+    },
+    x10y9 = {
+        name = "aUBERGE D'aMOU",
+        price = 8
+    }
 }
 
 items = {
-    {
+    potion = {
         name = "pOTION",
         posessed = 3,
         spr = 32,
         type = "consumable",
         effect = function() heal(5) end
     },
-    {
+    key = {
         name = "kEY",
         posessed = 9,
         spr = 33
@@ -79,6 +86,7 @@ terrains = {
         max_steps = 2,
         enemies = {2}
     }
+    --7-reserved for towns
 }
 
 end

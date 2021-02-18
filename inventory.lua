@@ -1,5 +1,5 @@
 function init_inventory()
-    inv_x, inv_y, inv_w, inv_h = 128, 30, 90, 90
+    inv_x, inv_y = 128, 30
     inventory_opened = false
 end
 
@@ -20,15 +20,13 @@ function update_inventory()
 end
 
 function draw_inventory()
-    local x, y, w, h = inv_x, inv_y, inv_w, inv_h
-    rectfill(x, y, x+w, y+h, 4)
-    for item in all(items) do
-        if item.posessed then
-            if item.posessed > 0 then
-                spr(item.spr, x+10, y+10)
-                print_shaded(item.posessed, x+14, y+14)
-                x += 9
-            end
+    local x, y, w, h = inv_x, inv_y, 40, 40
+    window(x, y, x+w, y+h)
+    for id, item in pairs(items) do
+        if item.posessed > 0 then
+            spr(item.spr, x+10, y+10)
+            print_shaded(item.posessed, x+14, y+14)
+            x += 9
         end
     end
 end

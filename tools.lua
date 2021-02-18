@@ -21,6 +21,11 @@ function can_move()
     return not tile_has_flag(0, newx, newy)
 end
 
+function draw_cursor(x, y)
+    x = x + flr(sin(time()) + 0.5)
+    spr(14, x, y)
+end
+
 function print_shaded(text, x, y)
     print(text, x+1, y, 1)
     print(text, x-1, y, 1)
