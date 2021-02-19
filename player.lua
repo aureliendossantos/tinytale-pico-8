@@ -2,7 +2,7 @@ function init_player()
     local hp = calc_hp_curve()
     p.hp, p.hp_max = hp, hp
     p.exp, p.exp_max = 0, calc_exp_curve()
-    p.damage = calc_damage_curve()
+    p.damage = calc_atk_curve()
 end
 
 function update_player_stats()
@@ -13,7 +13,7 @@ function update_player_stats()
         p.exp_max = calc_exp_curve()
         p.hp_max = calc_hp_curve()
         p.hp = p.hp_max
-        p.damage = calc_damage_curve()
+        p.damage = calc_atk_curve()
     end
     p.hp = mid(0, p.hp, p.hp_max)
 end

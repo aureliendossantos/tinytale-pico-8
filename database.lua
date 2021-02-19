@@ -23,7 +23,7 @@ end
 function calc_exp_curve()
     return 100 * p.level
 end
-function calc_damage_curve()
+function calc_atk_curve()
     return 1 * p.level
 end
 
@@ -48,7 +48,6 @@ items = {
         name = "pOTION",
         posessed = 3,
         spr = 32,
-        type = "consumable",
         effect = function() heal(5) end
     },
     key = {
@@ -57,6 +56,28 @@ items = {
         spr = 33
     }
 }
+
+items_inv = {
+    {"potion", 3},
+    {"key", 1}
+}
+
+weapons = {
+    {
+        name = "sHORT sWORD",
+        atk = 1,
+        posessed = 1,
+        spr = 48
+    },
+    {
+        name = "lONGSWORD",
+        atk = 3,
+        posessed = 1,
+        spr = 48
+    }
+}
+
+weapons_inv = {1, 2, 1}
 
 enemies = {
     {

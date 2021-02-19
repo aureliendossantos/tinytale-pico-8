@@ -116,7 +116,6 @@ end
 
 function toggle_log()
     log_opened = not log_opened
-    inventory_opened = false
 end
 
 function update_log()

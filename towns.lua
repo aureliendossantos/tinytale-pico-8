@@ -12,7 +12,7 @@ function enter_town()
 end
 
 function update_town()
-    update_index_up_and_down()
+    index = update_index_up_and_down(index, #choices)
     if btnp_x then
         if choices[index].price and p.gold >= choices[index].price then
             choices[index].action()
@@ -41,7 +41,7 @@ function open_shop()
 end
 
 function update_shop()
-    update_index_up_and_down()
+    index = update_index_up_and_down(index, #choices)
     if btnp_x then
         local choice = choices[index]
         if p.gold >= choice.price then
@@ -54,17 +54,6 @@ function update_shop()
     end
     update_hud()
     update_player_stats()
-end
-
-function update_index_up_and_down()
-    if btnp_up then
-        index -= 1
-    end
-    if btnp_down then
-        index += 1
-    end
-    if (index < 1) index = #choices
-    if (index > #choices) index = 1
 end
 
 function draw_town()

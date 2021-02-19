@@ -26,6 +26,30 @@ function draw_cursor(x, y)
     spr(14, x, y)
 end
 
+function update_index_up_and_down(index, max)
+    if btnp_up then
+        index -= 1
+    end
+    if btnp_down then
+        index += 1
+    end
+    if (index < 1) index = max
+    if (index > max) index = 1
+    return index
+end
+
+function update_index_left_and_right(index, max)
+    if btnp_left then
+        index -= 1
+    end
+    if btnp_right then
+        index += 1
+    end
+    if (index < 1) index = max
+    if (index > max) index = 1
+    return index
+end
+
 function print_shaded(text, x, y)
     print(text, x+1, y, 1)
     print(text, x-1, y, 1)
