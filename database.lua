@@ -15,6 +15,8 @@ p = {
     gold = 0
 }
 
+idle_previous_frame, tick, frame = true, 0, 1
+
 --evolution curves
 --base that will be altered by equipment
 function calc_hp_curve()
@@ -40,7 +42,7 @@ towns = {
 }
 
 chests = {
-    x3y4 = {"potion", 3}
+    x3y4 = {"potion", 3, "key", 2, "gold", 40}
 }
 
 items = {

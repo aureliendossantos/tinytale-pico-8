@@ -72,7 +72,7 @@ function draw_town()
             if (index == i) draw_cursor(x, y)
             if (choice.spr) spr(choice.spr, x + 12, y)
             print(choice.name, x + 24, y + 1)
-            if (choice.price) print(choice.price, x+57, y+1)
+            if (choice.price) print_align_right(choice.price, x+63, y+1, 15)
             y+=8
         end
     end

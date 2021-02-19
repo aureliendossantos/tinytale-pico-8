@@ -101,6 +101,10 @@ function bubble(width, height, y, fill_percent)
     end
 end
 
+function print_align_right(text, x, y, col)
+    print(text, x - 4 * #tostr(text), y, col)
+end
+
 function update_buttons()
     --buttons aliases
     btn_up,btn_left,btn_down,btn_right=btn(⬆️),btn(⬅️),btn(⬇️),btn(➡️)
@@ -111,5 +115,11 @@ function update_buttons()
     else
         btn_x_held = btn_x_timer
         btn_x_timer = 0
+    end
+    --when you press x to exit a menu, can_use_item_shortcut is set
+    --to false to avoid using the potion immediately after.
+    --the potion can be used again at the next key press:
+    if btn_x_timer == 0 and btn_x_held == 0 then
+        can_use_item_shortcut = true
     end
 end

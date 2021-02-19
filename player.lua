@@ -18,7 +18,7 @@ function update_player_stats()
     p.hp = mid(0, p.hp, p.hp_max)
 end
 
-function player_movement()
+function update_player_movement()
     newx, newy = p.x, p.y
     local dirx, diry = {-1, 1, 0, 0}, {0, 0, -1, 1}
     for i=1,4 do
@@ -53,5 +53,21 @@ function player_animation()
 end
 
 function draw_player()
-    outlined_spr(16, p.x*8 + p.ox, p.y*8 + p.oy, 1, 1, p.flip)
+    sprites = {21, 22, 23, 24}
+
+    if (p.busy) idle_previous_frame = false
+
+    tick = (tick + 1) % 6 --change sprite every 4 frames
+    if tick == 0 then
+        if idle_previous_frame then
+            --if the player hasn't moved for more than a frame
+            frame = 1
+        else
+            frame = frame % #sprites + 1
+        end
+    end
+    outlined_spr(enemy and 25 or sprites[frame], p.x*8 + p.ox, p.y*8 + p.oy, 1, 1, p.flip)
+    print(idle_timer, 0, 60, 7)
+
+    if (not p.busy) idle_previous_frame = true
 end

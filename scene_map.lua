@@ -20,7 +20,7 @@ function update_map()
         open_chest(p.x, p.y)
         items.key.posessed -= 1
     end
-    if (not p.busy) player_movement()
+    if (not p.busy) update_player_movement()
     update_terrain_number()
     if not steps_goal_set or terrain_changed then
         new_steps_goal()
@@ -37,10 +37,47 @@ end
 
 function open_chest(x, y)
     mset(x, y, 6)
-    local chest = chests["x"..x.."y"..y]
-    for i = 1, #chest, 2 do
-        local item = chest[i]
-        items[item].posessed += chest[i+1]
+    current_chest = chests["x"..x.."y"..y]
+    _upd = update_chest_popup
+end
+
+function update_chest_popup()
+    if btnp_x and btn_x_timer == 1 then
+        for i = 1, #current_chest, 2 do
+            local item = current_chest[i]
+            if item == "gold" then
+                p.gold += current_chest[i+1]
+            else
+                items[item].posessed += current_chest[i+1]
+            end
+        end
+        current_chest = nil
+        can_use_item_shortcut = false --so potion is not used immediately after
+        _upd = update_map
+    end
+end
+
+function draw_chest_popup()
+    if current_chest then
+        local x, y = 40, 60
+        window(x, y, x+50, y+46)
+        x += 5
+        y += 4
+        for i = 1, #current_chest, 2 do
+            local item = {}
+            if current_chest[i] == "gold" then
+                item = {spr = 34, name = "gOLD"}
+            else
+                item = items[current_chest[i]]
+            end
+            local amount = current_chest[i+1]
+            spr(item.spr, x, y)
+            y += 1
+            print(item.name, x+12, y, 15)
+            print_align_right(amount, x+43, y, 15)
+            y += 9
+        end
+        print("❎ take", x+6, y+3)
     end
 end
 
@@ -98,6 +135,7 @@ function draw_map()
     camera()
     draw_hud()
     draw_chest_bubble()
+    draw_chest_popup()
     draw_inventory()
     draw_town()
 end
