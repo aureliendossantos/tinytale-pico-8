@@ -6,6 +6,7 @@ function init_map()
     steps_goal = 0
     cur_terrain = 0
     log = {}
+    generate_autotiles(24, 24)
 end
 
 function update_map()

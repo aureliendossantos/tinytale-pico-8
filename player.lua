@@ -67,7 +67,6 @@ function draw_player()
         end
     end
     outlined_spr(enemy and 25 or sprites[frame], p.x*8 + p.ox, p.y*8 + p.oy, 1, 1, p.flip)
-    print(idle_timer, 0, 60, 7)
 
     if (not p.busy) idle_previous_frame = true
 end
