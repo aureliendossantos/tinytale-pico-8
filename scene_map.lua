@@ -6,7 +6,7 @@ function init_map()
     steps_goal = 0
     cur_terrain = 0
     log = {}
-    generate_autotiles(24, 24)
+    generate_autotiles(48, 31)
 end
 
 function update_map()
@@ -37,7 +37,7 @@ function update_map()
 end
 
 function open_chest(x, y)
-    mset(x, y, 6)
+    mset(x, y, mget(x, y) + 1)
     current_chest = chests["x"..x.."y"..y]
     _upd = update_chest_popup
 end
@@ -120,8 +120,6 @@ function new_steps_goal()
 end
 
 function update_camera()
-    local map_width = 127
-    local map_height = 63
     local camx = mid(0, (p.x - 7.5) * 8 + p.ox, (map_width - 15) * 8)
     local camy = mid(0, (p.y - 7.5) * 8 + p.oy, (map_height - 15) * 8)
     camera(camx, camy)

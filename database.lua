@@ -1,9 +1,11 @@
 function init_database()
 
+map_width, map_height = 48, 31
+
 --player properties
 p = {
-    x = 7,
-    y = 2,
+    x = 5,
+    y = 27,
     ox = 0,
     oy = 0,
     start_ox = 0,
@@ -15,6 +17,7 @@ p = {
     gold = 0
 }
 
+p_sprites = {64, 65, 66, 67}
 idle_previous_frame, tick, frame = true, 0, 1
 
 --evolution curves
@@ -30,14 +33,15 @@ function calc_atk_curve()
 end
 
 towns = {
-    x9y2 = {
+    x11y24 = {
         name = "aUBERGE DE tILH",
-        price = 4,
-        shop = {"potion", 5, "key", 20}
+        price = 6,
+        shop = {"potion", 12}
     },
     x10y9 = {
         name = "aUBERGE D'aMOU",
-        price = 8
+        price = 8,
+        shop = {"potion", 5, "key", 20}
     }
 }
 
@@ -49,13 +53,13 @@ items = {
     potion = {
         name = "pOTION",
         posessed = 3,
-        spr = 32,
+        spr = 96,
         effect = function() heal(5) end
     },
     key = {
         name = "kEY",
         posessed = 1,
-        spr = 33
+        spr = 97
     }
 }
 
@@ -69,13 +73,13 @@ weapons = {
         name = "sHORT sWORD",
         atk = 1,
         posessed = 1,
-        spr = 48
+        spr = 112
     },
     {
         name = "lONGSWORD",
         atk = 3,
         posessed = 1,
-        spr = 48
+        spr = 112
     }
 }
 
@@ -84,15 +88,15 @@ weapons_inv = {1, 2, 1}
 enemies = {
     {
         name = "slime",
-        spr = 17,
-        hp = 1,
-        damage = 1,
+        spr = 80,
+        hp = 2,
+        damage = 2,
         exp = 10,
         gold = 2
     },
     {
         name = "goblin",
-        spr = 18,
+        spr = 81,
         hp = 3,
         damage = 2,
         exp = 25,

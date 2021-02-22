@@ -2,7 +2,7 @@ function enter_town()
     current_town = towns["x"..p.x.."y"..p.y]
     --first choice is always sleep
     choices = {
-        {spr = 15, name = "sleep",  price = current_town.price, action = function() inn() end}
+        {spr = 79, name = "sleep",  price = current_town.price, action = function() inn() end}
     }
     if current_town.shop then
         add(choices, {name = "shop", action = function() open_shop() end})

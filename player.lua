@@ -42,6 +42,7 @@ function update_player_movement()
 end
 
 function player_animation()
+    --movement
     p.anim_timer = min(p.anim_timer + 0.075, 1)
     p.ox = p.start_ox * (1 - p.anim_timer)
     p.oy = p.start_oy * (1 - p.anim_timer)
@@ -50,10 +51,6 @@ function player_animation()
     else
         p.busy = true --won't move or do other actions while busy
     end
-end
-
-function draw_player()
-    sprites = {21, 22, 23, 24}
 
     if (p.busy) idle_previous_frame = false
 
@@ -63,10 +60,13 @@ function draw_player()
             --if the player hasn't moved for more than a frame
             frame = 1
         else
-            frame = frame % #sprites + 1
+            frame = frame % #p_sprites + 1
         end
     end
-    outlined_spr(enemy and 25 or sprites[frame], p.x*8 + p.ox, p.y*8 + p.oy, 1, 1, p.flip)
 
     if (not p.busy) idle_previous_frame = true
+end
+
+function draw_player()
+    outlined_spr(enemy and 68 or p_sprites[frame], p.x*8 + p.ox, p.y*8 + p.oy, 1, 1, p.flip)
 end

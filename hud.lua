@@ -88,7 +88,7 @@ function draw_player_status()
     print_shaded(str, 15-#str*2, 11, 9)
 
     local y = 20
-    spr(34, 21, y)
+    spr(98, 21, y)
     str = tostr(ceil(gold_bar.printed))
     print_shaded(str, 20-#str*4, y+1, 7)
 end
@@ -107,8 +107,8 @@ function draw_inventory_corner()
     y += 2
     print("❎", x, y+2, 15)
     x += 9
-    spr(35, x, y)
-    spr(32, x, y)
+    spr(94, x, y)
+    spr(96, x, y)
     print_shaded(items["potion"].posessed, x+6, y+3)
     x += 12
     print("🅾️iNV", x, y+2, 15)

@@ -23,7 +23,7 @@ end
 
 function draw_cursor(x, y)
     x = x + flr(sin(time()) + 0.5)
-    spr(14, x, y)
+    spr(78, x, y)
 end
 
 function update_index_up_and_down(index, max)
