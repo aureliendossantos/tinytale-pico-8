@@ -65,6 +65,11 @@ function outlined_spr(n, x, y, w, h, flip_x, flip_y)
     spr(n, x, y, w, h, flip_x, flip_y)
 end
 
+function rounded_rectfill(x, y, x2, y2, col)
+    rectfill(x+1, y, x2-1, y2, col)
+    rectfill(x, y+1, x2, y2-1)
+end
+
 --legacy
 function window_legacy(x, y, x2, y2, title)
     rect(x, y, x2, y2, 4)

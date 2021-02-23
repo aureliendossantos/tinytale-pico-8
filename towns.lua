@@ -8,6 +8,26 @@ function enter_town()
         add(choices, {name = "shop", action = function() open_shop() end})
     end
     index = 1
+
+    town_window = window:new{type = "centered", y = 130, w = 70, h = 100, life = 1, speed = 3}
+
+    town_window.target_y = 115 - #choices*8
+
+    function town_window:draw_contents()
+        if current_town then
+            print_centered(current_town.name, 35, 3, 15)
+            local y = 11
+            for i = 1, #choices do
+                local choice = choices[i]
+                if (index == i) draw_cursor(2, y)
+                if (choice.spr) spr(choice.spr, 14, y)
+                print(choice.name, 26, y + 1, 15)
+                if (choice.price) print_align_right(choice.price, 65, y+1, 15)
+                y += 8
+            end
+        end
+    end
+
     _upd = update_town
 end
 
@@ -24,6 +44,7 @@ function update_town()
     if btnp_o then
         just_left_town = true
         current_town = nil
+        town_window.target_y = 130
         _upd = update_map
     end
     update_hud()
@@ -54,26 +75,4 @@ function update_shop()
     end
     update_hud()
     update_player_stats()
-end
-
-function draw_town()
-    if current_town then
-        local name = current_town.name
-        local w = #name * 4 + 2
-        local x = 64 - w/2
-        local y = 115 - #choices*8
-        window_legacy(x - 5, y + 4, x + w + 5, 128)
-        window_legacy(x, y, x + w, y + 8)
-        print(name, x + 2, y + 2, 15)
-        x -= 2
-        y += 11
-        for i = 1, #choices do
-            local choice = choices[i]
-            if (index == i) draw_cursor(x, y)
-            if (choice.spr) spr(choice.spr, x + 12, y)
-            print(choice.name, x + 24, y + 1)
-            if (choice.price) print_align_right(choice.price, x+63, y+1, 15)
-            y+=8
-        end
-    end
 end

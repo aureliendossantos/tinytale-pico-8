@@ -1,29 +1,53 @@
-window = {life = 0}
+window = {life = 0, speed = 2}
 
 function window:new(properties)
-    properties = properties or {}
+    if properties.type == "centered" then
+        properties.x = 63 - properties.w/2
+    end
     setmetatable(properties, self)
     self.__index = self
     return properties
 end
 
 function window:draw()
-    local x, y, x2, y2 = self.x, self.y, self.x + self.w, self.y + self.h
-    rect(x - 1, y - 1, x2 + 1, y2 + 1, 4)
-    rectfill(x, y, x2, y2, 5)
-    clip(x - 1, y - 1, self.w + 2, self.h + 2)
-    camera(-x, -y)
-    self:draw_contents()
-    camera()
-    clip()
+    local target_x, target_y, speed = self.target_x, self.target_y, self.speed
+    if target_x then
+        if (target_x < self.x) self.x = max(target_x, self.x - speed)
+        if (target_x > self.x) self.x = min(target_x, self.x + speed)
+    end
+    if target_y then
+        if (target_y < self.y) self.y = max(target_y, self.y - speed)
+        if (target_y > self.y) self.y = min(target_y, self.y + speed)
+    end
+
+    local x, y, w, h, life = self.x, self.y, self.w, self.h, self.life
+    local x2, y2 = x + w, y + h
+    if self.closing and life > 0 then
+        life -= 0.2
+    end
+    if life < 1 then
+        x, y, x2, y2 = x + w/2 - (w/2)*life, y + h/2 - (h/2)*life, x + w/2 + (w/2)*life, y + h/2 + (h/2)*life
+        self.life = min(1, life + 0.1)
+    end
+    if not (self.closing and life <= 0) then
+        rounded_rectfill(x - 2, y - 2, x2 + 2, y2 + 3, 1)
+        rounded_rectfill(x - 2, y - 2, x2 + 2, y2 + 2, 5)
+        rounded_rectfill(x - 1, y - 1, x2 + 1, y2 + 1, 9)
+        rectfill(x, y, x2, y2, 5)
+        --clip(x - 1, y - 1, self.w + 2, self.h + 2)
+        camera(-x, -y)
+        if (life == 1) self:draw_contents()
+        camera()
+        --clip()
+    end
 end
 
 function window:move(target_x, target_y, speed)
-    speed = speed or 2
-    if (target_x < self.x) self.x = max(target_x, self.x - speed)
-    if (target_x > self.x) self.x = min(target_x, self.x + speed)
-    if (target_y < self.y) self.y = max(target_y, self.y - speed)
-    if (target_y > self.y) self.y = min(target_y, self.y + speed)
+    self.target_x, self.target_y, self.speed = target_x, target_y, speed or self.speed
+end
+
+function window:close()
+    self.closing = true
 end
 
 ---
@@ -63,6 +87,18 @@ end
 
 ---
 
+function tooltip(contents, x, y)
+    local x2, y2 = x + 2 + #contents * 4, y + 8
+    line(x+1, y, x2-1, y, 14)
+    line(x, y+1, x, y2-1)
+    line(x+1, y2, x2-1, y2, 13)
+    line(x2, y+1, x2, y2-1)
+    rectfill(x+1, y+1, x2-1, y2-1, 7)
+    print(contents, x+2, y+2, 1)
+end
+
+---
+
 function print_shaded(text, x, y)
     print(text, x+1, y, 1)
     print(text, x-1, y)
@@ -77,6 +113,10 @@ end
 
 function print_align_right_shaded(text, x, y)
     print_shaded(text, x - 4 * #tostr(text), y)
+end
+
+function print_centered(text, x, y, col)
+    print(text, x - 2 * #tostr(text), y, col)
 end
 
 function print_centered_shaded(text, x, y)

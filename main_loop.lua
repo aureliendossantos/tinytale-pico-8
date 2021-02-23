@@ -24,4 +24,5 @@ end
 
 function _draw()
     _drw()
+    --print("cpu " .. stat(1)*200 .. "\n" .. stat(7),1,60,9)
 end

@@ -1,6 +1,5 @@
 function init_map()
     init_player()
-    init_inventory()
     init_hud()
     steps = 0
     steps_goal = 0
@@ -136,5 +135,5 @@ function draw_map()
     draw_chest_bubble()
     draw_chest_popup()
     draw_inventory()
-    draw_town()
+    if (town_window) town_window:draw()
 end
