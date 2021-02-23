@@ -16,9 +16,9 @@ function update_map()
     else
         just_left_town = false
     end
-    if cur_terrain == 6 and items.key.posessed > 0 and btn_x_timer > 30 then
+    if cur_terrain == 6 and items_inv[2] > 0 and btn_x_timer > 30 then
         open_chest(p.x, p.y)
-        items.key.posessed -= 1
+        items_inv[2] -= 1
     end
     if (not p.busy) update_player_movement()
     update_terrain_number()
@@ -48,11 +48,10 @@ function update_chest_popup()
             if item == "gold" then
                 p.gold += current_chest[i+1]
             else
-                items[item].posessed += current_chest[i+1]
+                items_inv[item] += current_chest[i+1]
             end
         end
         current_chest = nil
-        can_use_item_shortcut = false --so potion is not used immediately after
         _upd = update_map
     end
 end
@@ -74,7 +73,7 @@ function draw_chest_popup()
             spr(item.spr, x, y)
             y += 1
             print(item.name, x+12, y, 15)
-            print_align_right(amount, x+43, y, 15)
+            print_right(amount, x+43, y, 15)
             y += 9
         end
         print("❎ take", x+6, y+3)
@@ -83,7 +82,7 @@ end
 
 function draw_chest_bubble()
     if cur_terrain == 6 then
-        if items.key.posessed > 0 then
+        if items_inv[2] > 0 then
             local x, y = 30, 96
             bubble(69, 8, y-2, btn_x_timer*100/30)
             print("hold ❎ to use  !", x, y, 0)
@@ -136,4 +135,5 @@ function draw_map()
     draw_chest_popup()
     draw_inventory()
     if (town_window) town_window:draw()
+    draw_tooltip()
 end

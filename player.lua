@@ -1,20 +1,23 @@
 function init_player()
-    local hp = calc_hp_curve()
+    local hp = calc_hp()
     p.hp, p.hp_max = hp, hp
-    p.exp, p.exp_max = 0, calc_exp_curve()
-    p.damage = calc_atk_curve()
+    p.exp, p.exp_max = 0, calc_exp()
+    p.atk = calc_atk()
+    p.def = calc_def()
 end
 
 function update_player_stats()
     if p.exp >= p.exp_max then
         add(log, "level up!")
-        p.exp = 0
+        p.exp -= p.exp_max
         p.level += 1
-        p.exp_max = calc_exp_curve()
-        p.hp_max = calc_hp_curve()
+        p.exp_max = calc_exp()
+        p.hp_max = calc_hp()
         p.hp = p.hp_max
-        p.damage = calc_atk_curve()
     end
+    p.hp_max = calc_hp()
+    p.atk = calc_atk()
+    p.def = calc_def()
     p.hp = mid(0, p.hp, p.hp_max)
 end
 

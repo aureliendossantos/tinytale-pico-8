@@ -12,18 +12,21 @@ function init_hud()
     function status_hud:draw_contents()
         hp_bar:draw(1, 6, 27, 2, p.hp_max)
         print_centered_shaded(flr(hp_bar.printed).."/"..p.hp_max, 15, 2)
-        exp_bar:draw(1, 16, 27, 1, calc_exp_curve())
+        exp_bar:draw(1, 16, 27, 1, calc_exp())
         print_centered_shaded("lV."..p.level, 15, 11)
         spr(98, 21, 20)
-        print_align_right_shaded(ceil(gold_bar.printed), 20, 21)
+        print_right_shaded(ceil(gold_bar.printed), 20, 21)
     end
     
     function inventory_hud:draw_contents()
-        print("❎", 2, 3, 15)
-        spr(94, 11, 1)
-        spr(96, 11, 1)
-        print_shaded(items["potion"].posessed, 17, 4)
-        print("🅾️iNV", 23, 3, 15)
+        spr(94, 2, 1)
+        spr(96, 2, 1)
+        spr(94, 13, 1)
+        spr(97, 13, 1)
+        print_right_shaded(items_inv[1], 12, 4)
+        print_right_shaded(items_inv[2], 23, 4)
+        print("🅾️", 25, 4, 1)
+        print("🅾️", 25, btn_o and 4 or 3, 15)
     end
 
     menuitem(2, "event log", function() toggle_log() end)
@@ -44,16 +47,9 @@ end
 
 function update_inventory_corner()
     if inventory_corner then
-        inventory_hud:move(85, 118)
-        if can_use_item_shortcut and btn_x_held > 0 and btn_x_held < 15 then
-            if items.potion.posessed > 0 then
-                items.potion.effect()
-                items.potion.posessed -= 1
-                add(log, "used "..items.potion.name)
-            end
-        end
+        inventory_hud:move(94, 118)
     else
-        inventory_hud:move(106, 118)
+        inventory_hud:move(104, 118)
     end
 end
 

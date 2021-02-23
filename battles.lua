@@ -38,7 +38,8 @@ function should_battle_end(enemy)
     return enemy.hp <= 0 or p.hp <= 0
 end
 
-function attack(atker, dfder)
-    dfder.hp -= atker.damage
-    add(log, atker.name.." ▶ -"..atker.damage.." "..dfder.name)
+function attack(attacker, defender)
+    local damage = attacker.atk * 2 - attacker.def
+    defender.hp -= damage
+    add(log, attacker.name.." ▶ -"..damage.." "..defender.name)
 end

@@ -22,7 +22,7 @@ function enter_town()
                 if (index == i) draw_cursor(2, y)
                 if (choice.spr) spr(choice.spr, 14, y)
                 print(choice.name, 26, y + 1, 15)
-                if (choice.price) print_align_right(choice.price, 65, y+1, 15)
+                if (choice.price) print_right(choice.price, 65, y+1, 15)
                 y += 8
             end
         end
@@ -54,9 +54,17 @@ end
 function open_shop()
     index = 1
     choices = {}
-    for i = 1, #current_town.shop, 2 do
-        local item = current_town.shop[i]
-        add(choices, {spr = items[item].spr, id = item, name = items[item].name, price = current_town.shop[i+1]})
+    local shop = current_town.shop
+    for i = 1, #shop, 3 do
+        local type, id, price, item_spr, name = shop[i], shop[i+1], shop[i+2]
+        if type == "item" then
+            item_spr, name = items[id].spr, items[id].name
+        elseif type == "weapon" then
+            item_spr, name = weapons[id].spr, weapons[id].name
+        else
+            item_spr, name = armors[id].spr, armors[id].name
+        end
+        add(choices, {type = type, spr = item_spr, id = id, name = name, price = price})
     end
     _upd = update_shop
 end
@@ -66,7 +74,13 @@ function update_shop()
     if btnp_x then
         local choice = choices[index]
         if p.gold >= choice.price then
-            items[choice.id].posessed += 1
+            if choice.type == "item" then
+                items_inv[choice.id] += 1
+            elseif choice.type == "weapon" then
+                add(weapons_inv, choice.id)
+            else
+                add(armors_inv, choice.id)
+            end
             p.gold -= choice.price
         end
     end

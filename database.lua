@@ -22,83 +22,98 @@ idle_previous_frame, tick, frame = true, 0, 1
 
 --evolution curves
 --base that will be altered by equipment
-function calc_hp_curve()
+function calc_hp()
     return 4 + 5 * p.level
 end
-function calc_exp_curve()
+function calc_exp()
     return 100 * p.level
 end
-function calc_atk_curve()
-    return 1 * p.level
+function calc_atk()
+    return 1 * p.level + weapons[weapons_inv[weapon_equipped]].atk
+end
+function calc_def()
+    return 1 * p.level + armors[armors_inv[armor_equipped]].def
 end
 
 towns = {
     x11y24 = {
         name = "aUBERGE DE tILH",
         price = 6,
-        shop = {"potion", 12}
+        shop = {"item", 1, 12, "weapon", 2, 2}
     },
     x10y9 = {
         name = "aUBERGE D'aMOU",
         price = 8,
-        shop = {"potion", 5, "key", 20}
+        shop = {1, 5, 2, 20}
     }
 }
 
 chests = {
-    x3y4 = {"potion", 3, "key", 2, "gold", 40}
+    x3y4 = {1, 3, 2, 2, "gold", 40}
 }
 
 items = {
-    potion = {
+    {
         name = "pOTION",
-        posessed = 3,
         spr = 96,
         effect = function() heal(5) end
     },
-    key = {
+    {
         name = "kEY",
-        posessed = 1,
         spr = 97
     }
 }
 
-items_inv = {
-    {"potion", 3},
-    {"key", 1}
-}
+items_inv = {2, 1}
 
 weapons = {
     {
         name = "sHORT sWORD",
         atk = 1,
-        posessed = 1,
         spr = 112
     },
     {
-        name = "lONGSWORD",
+        name = "lONGSW",
         atk = 3,
-        posessed = 1,
         spr = 112
     }
 }
 
-weapons_inv = {1, 2, 1}
+weapons_inv = {1}
+weapon_equipped = 1
+
+armors = {
+    {
+        name = "t-sHIRT",
+        def = 1,
+        spr = 113
+    },
+    {
+        name = "fAT t-sHIRT",
+        def = 2,
+        spr = 113
+    }
+}
+
+armors_inv = {1}
+armor_equipped = 1
 
 enemies = {
     {
         name = "slime",
         spr = 80,
         hp = 2,
-        damage = 2,
+        atk = 2,
+        def = 2,
         exp = 10,
         gold = 2
     },
     {
         name = "goblin",
         spr = 81,
-        hp = 3,
-        damage = 2,
+        hp = 4,
+        atk = 2,
+        def = 2,
         exp = 25,
         gold = 3
     }

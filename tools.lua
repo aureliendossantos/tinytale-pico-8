@@ -103,10 +103,4 @@ function update_buttons()
         btn_x_held = btn_x_timer
         btn_x_timer = 0
     end
-    --when you press x to exit a menu, can_use_item_shortcut is set
-    --to false to avoid using the potion immediately after.
-    --the potion can be used again at the next key press:
-    if btn_x_timer == 0 and btn_x_held == 0 then
-        can_use_item_shortcut = true
-    end
 end

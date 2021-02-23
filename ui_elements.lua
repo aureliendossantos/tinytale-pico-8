@@ -35,7 +35,8 @@ function window:draw()
         rounded_rectfill(x - 1, y - 1, x2 + 1, y2 + 1, 9)
         rectfill(x, y, x2, y2, 5)
         --clip(x - 1, y - 1, self.w + 2, self.h + 2)
-        camera(-x, -y)
+        ui_camera_offset_x, ui_camera_offset_y = x, y
+        camera(-ui_camera_offset_x, -ui_camera_offset_y)
         if (life == 1) self:draw_contents()
         camera()
         --clip()
@@ -88,13 +89,26 @@ end
 ---
 
 function tooltip(contents, x, y)
-    local x2, y2 = x + 2 + #contents * 4, y + 8
-    line(x+1, y, x2-1, y, 14)
-    line(x, y+1, x, y2-1)
-    line(x+1, y2, x2-1, y2, 13)
-    line(x2, y+1, x2, y2-1)
-    rectfill(x+1, y+1, x2-1, y2-1, 7)
-    print(contents, x+2, y+2, 1)
+    tooltip_data = {contents, x + ui_camera_offset_x, y + ui_camera_offset_y}
+end
+
+function draw_tooltip()
+    if tooltip_data then
+        local contents, x, y = tooltip_data[1], tooltip_data[2], tooltip_data[3]
+        local x2, y2 = x + 2 + #contents * 4, y + 8
+        if x2 > 127 then
+            x -= x2 - 127
+            x2 -= x2 - 127
+        end
+        line(x+1, y, x2-1, y, 14)
+        line(x, y+1, x, y2-1)
+        line(x+1, y2, x2-1, y2, 13)
+        line(x2, y+1, x2, y2-1)
+        rectfill(x+1, y+1, x2-1, y2-1, 7)
+        print(contents, x+2, y+2, 1)
+        --tooltip must be set each frame in order to be displayed
+        tooltip_data = nil
+    end
 end
 
 ---
@@ -107,11 +121,11 @@ function print_shaded(text, x, y)
     print(text, x, y, 7)
 end
 
-function print_align_right(text, x, y, col)
+function print_right(text, x, y, col)
     print(text, x - 4 * #tostr(text), y, col)
 end
 
-function print_align_right_shaded(text, x, y)
+function print_right_shaded(text, x, y)
     print_shaded(text, x - 4 * #tostr(text), y)
 end
 
