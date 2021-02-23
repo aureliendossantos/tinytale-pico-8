@@ -23,10 +23,10 @@ end
 
 function draw_inventory()
     local x, y = 10 - inv_anim, 40
-    window(x, y, x+30, y+12)
+    window_legacy(x, y, x+30, y+12)
     print("ATK:"..p.damage, x+3, y+3, 9)
     local x, y = 60 + inv_anim, 40
-    window(x, y, x+49, y+45)
+    window_legacy(x, y, x+49, y+45)
     x += 6
     y += 3
     print("WEAPONS", x, y, 4)
@@ -39,7 +39,7 @@ function draw_inventory()
         local item = weapons[weapons_inv[i]]
         spr(item.spr, x2, y)
         if inv_index_x == i and inv_index_y == 1 then
-            window(x2, y+9, x2+2+#item.name*4, y+15)
+            window_legacy(x2, y+9, x2+2+#item.name*4, y+15)
             print(item.name, x2+1, y+10, 15)
         end
         x2 += 10
@@ -56,7 +56,7 @@ function draw_inventory()
         spr(item.spr, x2, y)
         print_shaded(amount, x2+4, y+4)
         if inv_index_x == i and inv_index_y == 2 then
-            window(x2, y+9, x2+2+#item.name*4, y+15)
+            window_legacy(x2, y+9, x2+2+#item.name*4, y+15)
             print(item.name, x2+1, y+10, 15)
         end
         x2 += 10

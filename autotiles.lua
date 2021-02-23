@@ -1,15 +1,17 @@
 function generate_autotiles(x_max, y_max)
     local terrains = {
-        --forest
-        {2, 214, "classic"},
-        --pines
-        {3, 164, "classic"},
+        --path
+        {2, 209, "path"},
+        --water
+        {3, 130, "water"},
         --mountain
         {4, 219, "classic"},
-        --path
-        {5, 209, "path"},
-        --water
-        {6, 153, "water"}
+        --forest
+        {5, 171, "classic"},
+        --deep forest
+        {6, 214, "classic"},
+        --pines
+        {7, 166, "classic"}
     }
     
     bitmasks = {
@@ -67,9 +69,7 @@ function generate_autotiles(x_max, y_max)
                 0b00001011,
                 0b00011111,
                 0b00010110,
-                0b01011111
-            },
-            {
+                0b01011111,
                 0b01001010,
                 0b01011010,
                 0b01010010,
@@ -85,15 +85,13 @@ function generate_autotiles(x_max, y_max)
                 0b01101000,
                 0b11111000,
                 0b11010000,
-                0b01111011
-            },
-            {
                 0b00011000,
                 0b01000010,
                 0b01111111,
                 0b11011111,
                 0b11111011,
                 0b11111110,
+                0b01111011,
                 0b11011110
             }
         }

@@ -62,8 +62,8 @@ function draw_town()
         local w = #name * 4 + 2
         local x = 64 - w/2
         local y = 115 - #choices*8
-        window(x - 5, y + 4, x + w + 5, 128)
-        window(x, y, x + w, y + 8)
+        window_legacy(x - 5, y + 4, x + w + 5, 128)
+        window_legacy(x, y, x + w, y + 8)
         print(name, x + 2, y + 2, 15)
         x -= 2
         y += 11

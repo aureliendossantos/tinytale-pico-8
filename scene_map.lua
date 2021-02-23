@@ -61,7 +61,7 @@ end
 function draw_chest_popup()
     if current_chest then
         local x, y = 40, 60
-        window(x, y, x+50, y+46)
+        window_legacy(x, y, x+50, y+46)
         x += 5
         y += 4
         for i = 1, #current_chest, 2 do

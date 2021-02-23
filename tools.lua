@@ -50,14 +50,6 @@ function update_index_left_and_right(index, max)
     return index
 end
 
-function print_shaded(text, x, y)
-    print(text, x+1, y, 1)
-    print(text, x-1, y, 1)
-    print(text, x, y+1, 1)
-    print(text, x, y-1, 1)
-    print(text, x, y, 7)
-end
-
 function outlined_spr(n, x, y, w, h, flip_x, flip_y)
     w, h, flip_x, flip_y = w or 1, h or 1, flip_x or false, flip_y or false
     pal({0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0})
@@ -73,16 +65,10 @@ function outlined_spr(n, x, y, w, h, flip_x, flip_y)
     spr(n, x, y, w, h, flip_x, flip_y)
 end
 
-function window(x, y, x2, y2, title)
+--legacy
+function window_legacy(x, y, x2, y2, title)
     rect(x, y, x2, y2, 4)
     rectfill(x+1, y+1, x2-1, y2-1, 5)
-    if title then
-        rect(x+3, y+3, x2-3, y2-3, 15)
-        x+=6
-        y+=1
-        rectfill(x, y, x + #title*4, y + 6, 5)
-        print(title, x+1, y, 15)
-    end
 end
 
 function bubble(width, height, y, fill_percent)
@@ -99,10 +85,6 @@ function bubble(width, height, y, fill_percent)
             rectfill(x-1, y, fill_x2, y2, 12)
         end
     end
-end
-
-function print_align_right(text, x, y, col)
-    print(text, x - 4 * #tostr(text), y, col)
 end
 
 function update_buttons()
