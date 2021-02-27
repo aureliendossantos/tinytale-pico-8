@@ -44,7 +44,7 @@ function update_player_movement()
     end
 end
 
-function player_animation()
+function update_player_animation()
     --movement
     p.anim_timer = min(p.anim_timer + 0.075, 1)
     p.ox = p.start_ox * (1 - p.anim_timer)

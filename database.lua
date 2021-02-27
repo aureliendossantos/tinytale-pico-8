@@ -49,7 +49,7 @@ towns = {
 }
 
 chests = {
-    x3y4 = {1, 3, 2, 2, "gold", 40}
+    x24y26 = {1, 3, 2, 2, "gold", 40}
 }
 
 items = {

@@ -29,8 +29,9 @@ function update_map()
         battle()
     end
     update_hud()
+    create_chest_bubble()
     update_player_stats()
-    player_animation()
+    update_player_animation()
     --change of scene:
     if (btnp_o) open_inventory()
 end
@@ -38,6 +39,27 @@ end
 function open_chest(x, y)
     mset(x, y, mget(x, y) + 1)
     current_chest = chests["x"..x.."y"..y]
+
+    chest_window = window:new{centered = true, y = 60, w = 50, h = 46}
+    function chest_window:draw_contents()
+        local y = 0
+        for i = 1, #current_chest, 2 do
+            local item = {}
+            if current_chest[i] == "gold" then
+                item = {spr = 34, name = "gOLD"}
+            else
+                item = items[current_chest[i]]
+            end
+            local amount = current_chest[i+1]
+            spr(item.spr, 0, y)
+            y += 1
+            print(item.name, 12, y, 15)
+            print_right(amount, 43, y, 15)
+            y += 9
+        end
+        print("❎ take", x+6, y+3)
+    end
+
     _upd = update_chest_popup
 end
 
@@ -51,47 +73,32 @@ function update_chest_popup()
                 items_inv[item] += current_chest[i+1]
             end
         end
+        chest_window.closing = true
         current_chest = nil
         _upd = update_map
     end
 end
 
-function draw_chest_popup()
-    if current_chest then
-        local x, y = 40, 60
-        window_legacy(x, y, x+50, y+46)
-        x += 5
-        y += 4
-        for i = 1, #current_chest, 2 do
-            local item = {}
-            if current_chest[i] == "gold" then
-                item = {spr = 34, name = "gOLD"}
-            else
-                item = items[current_chest[i]]
-            end
-            local amount = current_chest[i+1]
-            spr(item.spr, x, y)
-            y += 1
-            print(item.name, x+12, y, 15)
-            print_right(amount, x+43, y, 15)
-            y += 9
-        end
-        print("❎ take", x+6, y+3)
-    end
-end
-
-function draw_chest_bubble()
+function create_chest_bubble()
     if cur_terrain == 6 then
-        if items_inv[2] > 0 then
-            local x, y = 30, 96
-            bubble(69, 8, y-2, btn_x_timer*100/30)
-            print("hold ❎ to use  !", x, y, 0)
-            spr(33, x + 56, y - 2)
-        else
-            local x, y = 40, 96
-            bubble(52, 8, y-2)
-            print("you need a", x, y, 0)
-            spr(33, x + 41, y - 2)
+        if not chest_bubble then
+            local w, fill_time = 52
+            if items_inv[2] > 0 then
+                w, fill_time = 69, 30
+                local x, y = 30, 96
+            end
+            chest_bubble = window:new{bubble = true, life = 0.5, fill_time = fill_time, centered = true, y = 96, w = w, h = 8}
+            function chest_bubble:draw_contents()
+                local text, x = "you need a", 41
+                if (items_inv[2] > 0) text, x = "hold ❎ to use  !", 56
+                print(text, 0, 2, 0)
+                spr(33, x, 0)
+            end
+        end
+    else
+        if chest_bubble then
+            chest_bubble.closing = true
+            if (chest_bubble.life <= 0) chest_bubble = nil
         end
     end
 end
@@ -131,8 +138,8 @@ function draw_map()
     draw_battle()
     camera()
     draw_hud()
-    draw_chest_bubble()
-    draw_chest_popup()
+    if (chest_bubble) chest_bubble:draw()
+    if (chest_window) chest_window:draw()
     draw_inventory()
     if (town_window) town_window:draw()
     draw_tooltip()

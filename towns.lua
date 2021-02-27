@@ -9,7 +9,7 @@ function enter_town()
     end
     index = 1
 
-    town_window = window:new{type = "centered", y = 130, w = 70, h = 100, life = 1, speed = 3}
+    town_window = window:new{centered = true, y = 130, w = 70, h = 100, life = 1, speed = 3}
 
     town_window.target_y = 115 - #choices*8
 

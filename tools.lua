@@ -70,28 +70,6 @@ function rounded_rectfill(x, y, x2, y2, col)
     rectfill(x, y+1, x2, y2-1)
 end
 
---legacy
-function window_legacy(x, y, x2, y2, title)
-    rect(x, y, x2, y2, 4)
-    rectfill(x+1, y+1, x2-1, y2-1, 5)
-end
-
-function bubble(width, height, y, fill_percent)
-    local x, x2, y2 = 63 - width/2, 63 + width/2, y + height
-    rectfill(x-2, y, x2+2, y2, 0)
-    rectfill(x, y-2, x2, y2+2, 0)
-    rectfill(x-1, y-1, x2+1, y2+1, 0)
-    rectfill(x, y-1, x2, y2+1, 7)
-    rectfill(x-1, y, x2+1, y2, 7)
-    if fill_percent then
-        local fill_x2 = x + fill_percent * (x2 - x) / 100
-        if fill_percent > 0 then
-            rectfill(x, y-1, fill_x2, y2+1, 12)
-            rectfill(x-1, y, fill_x2, y2, 12)
-        end
-    end
-end
-
 function update_buttons()
     --buttons aliases
     btn_up,btn_left,btn_down,btn_right=btn(⬆️),btn(⬅️),btn(⬇️),btn(➡️)

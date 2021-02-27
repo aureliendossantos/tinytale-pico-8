@@ -1,7 +1,4 @@
 function init_hud()
-    log_opened = false
-    log_y = 128
-
     hp_bar = bar:new(p.hp, 8, 2)
     exp_bar = bar:new(p.exp, 12, 1)
     gold_bar = bar:new(p.gold)
@@ -27,6 +24,19 @@ function init_hud()
         print_right_shaded(items_inv[2], 23, 4)
         print("🅾️", 25, 4, 1)
         print("🅾️", 25, btn_o and 4 or 3, 15)
+    end
+
+    log_opened = false
+    log_window = window:new{x = 2, y = 130, w = 123, h = 60, life = 1, speed = 9}
+
+    function log_window:draw_contents()
+        local y = 0
+        for i = #log-7, #log do
+            if log[i] then
+                print(log[i], 2, y, 9)
+            end
+            y += 7
+        end
     end
 
     menuitem(2, "event log", function() toggle_log() end)
@@ -56,7 +66,7 @@ end
 function draw_hud()
     status_hud:draw()
     inventory_hud:draw()
-    draw_log()
+    log_window:draw()
 end
 
 function toggle_log()
@@ -65,20 +75,9 @@ end
 
 function update_log()
     if log_opened then
-        log_y = max(72, log_y - 9)
+        log_window.target_y = 72
         if (btn(🅾️)) toggle_log()
     else
-        log_y = min(128, log_y + 9)
-    end
-end
-
-function draw_log()
-    window_legacy(0, log_y, 127, 129)
-    local log_text_y = log_y + 1
-    for i = #log-7, #log do
-        if log[i] then
-            print(log[i], 1, log_text_y, 9)
-        end
-        log_text_y += 7
+        log_window.target_y = 130
     end
 end

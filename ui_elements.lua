@@ -1,7 +1,7 @@
 window = {life = 0, speed = 2}
 
 function window:new(properties)
-    if properties.type == "centered" then
+    if properties.centered then
         properties.x = 63 - properties.w/2
     end
     setmetatable(properties, self)
@@ -30,10 +30,25 @@ function window:draw()
         self.life = min(1, life + 0.1)
     end
     if not (self.closing and life <= 0) then
-        rounded_rectfill(x - 2, y - 2, x2 + 2, y2 + 3, 1)
-        rounded_rectfill(x - 2, y - 2, x2 + 2, y2 + 2, 5)
-        rounded_rectfill(x - 1, y - 1, x2 + 1, y2 + 1, 9)
-        rectfill(x, y, x2, y2, 5)
+        if self.bubble then
+            rectfill(x-2, y, x2+2, y2, 0)
+            rectfill(x, y-2, x2, y2+2, 0)
+            rectfill(x-1, y-1, x2+1, y2+1, 0)
+            rectfill(x, y-1, x2, y2+1, 7)
+            rectfill(x-1, y, x2+1, y2, 7)
+            if self.fill_time then
+                local fill_x2 = x + (btn_x_timer*100/self.fill_time) * (x2 - x) / 100
+                if btn_x_timer > 0 then
+                    rectfill(x, y-1, fill_x2, y2+1, 12)
+                    rectfill(x-1, y, fill_x2, y2, 12)
+                end
+            end
+        else
+            rounded_rectfill(x - 2, y - 2, x2 + 2, y2 + 3, 1)
+            rounded_rectfill(x - 2, y - 2, x2 + 2, y2 + 2, 5)
+            rounded_rectfill(x - 1, y - 1, x2 + 1, y2 + 1, 9)
+            rectfill(x, y, x2, y2, 5)
+        end
         --clip(x - 1, y - 1, self.w + 2, self.h + 2)
         ui_camera_offset_x, ui_camera_offset_y = x, y
         camera(-ui_camera_offset_x, -ui_camera_offset_y)
