@@ -36,20 +36,20 @@ function calc_def()
 end
 
 towns = {
+    default = {
+        name = "aUBERGE DE PASSAGE",
+        price = 6
+    },
     x11y24 = {
         name = "aUBERGE DE tILH",
         price = 6,
-        shop = {"item", 1, 12, "weapon", 2, 2}
-    },
-    x10y9 = {
-        name = "aUBERGE D'aMOU",
-        price = 8,
-        shop = {1, 5, 2, 20}
+        shop = {"item", 1, 12, "weapon", 2, 2, "armor", 2, 3}
     }
 }
 
 chests = {
-    x24y26 = {1, 3, 2, 2, "gold", 40}
+    x24y26 = {1, 3, 2, 2, "gold", 40},
+    x19y12 = {1, 10, "gold", 12}
 }
 
 items = {

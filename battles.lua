@@ -41,5 +41,5 @@ end
 function attack(attacker, defender)
     local damage = attacker.atk * 2 - attacker.def
     defender.hp -= damage
-    add(log, attacker.name.." ▶ -"..damage.." "..defender.name)
+    add(log, attacker.name.." ▶ -"..damage.." "..defender.name.." (♥"..defender.hp..")")
 end

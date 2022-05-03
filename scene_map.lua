@@ -40,9 +40,9 @@ function open_chest(x, y)
     mset(x, y, mget(x, y) + 1)
     current_chest = chests["x"..x.."y"..y]
 
-    chest_window = window:new{centered = true, y = 60, w = 50, h = 46}
+    chest_window = window:new{centered = true, y = 90 - #current_chest * 5, w = 50, h = 16 + #current_chest * 5}
     function chest_window:draw_contents()
-        local y = 0
+        local y = 3
         for i = 1, #current_chest, 2 do
             local item = {}
             if current_chest[i] == "gold" then
@@ -51,13 +51,13 @@ function open_chest(x, y)
                 item = items[current_chest[i]]
             end
             local amount = current_chest[i+1]
-            spr(item.spr, 0, y)
-            y += 1
-            print(item.name, 12, y, 15)
-            print_right(amount, 43, y, 15)
-            y += 9
+            spr(item.spr, 2, y)
+            y += 2
+            print(item.name, 13, y, 15)
+            print_right(amount, 48, y, 15)
+            y += 8
         end
-        print("❎ take", x+6, y+3)
+        print_centered("❎ take", 25, y+3, 15)
     end
 
     _upd = update_chest_popup
@@ -92,7 +92,7 @@ function create_chest_bubble()
                 local text, x = "you need a", 41
                 if (items_inv[2] > 0) text, x = "hold ❎ to use  !", 56
                 print(text, 0, 2, 0)
-                spr(33, x, 0)
+                spr(97, x, 0)
             end
         end
     else

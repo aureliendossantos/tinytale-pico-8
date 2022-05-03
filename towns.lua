@@ -1,5 +1,5 @@
 function enter_town()
-    current_town = towns["x"..p.x.."y"..p.y]
+    current_town = towns["x"..p.x.."y"..p.y] or towns["default"]
     --first choice is always sleep
     choices = {
         {spr = 79, name = "sleep",  price = current_town.price, action = function() inn() end}
@@ -66,6 +66,7 @@ function open_shop()
         end
         add(choices, {type = type, spr = item_spr, id = id, name = name, price = price})
     end
+    town_window.target_y = 115 - #choices*8
     _upd = update_shop
 end
 
